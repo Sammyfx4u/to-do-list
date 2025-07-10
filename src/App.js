@@ -7,9 +7,16 @@ function App() {
 
   const addTask = (e) => {
     e.preventDefault();
-    if (!input.trim()) return; // No empty tasks!
+    if (!input.trim()) {
+      alert('Please enter a task!');
+      return;
+    }
     setTasks([...tasks, { id: Date.now(), text: input }]);
     setInput('');
+  };
+
+  const deleteTask = (id) => {
+    setTasks(tasks.filter((task) => task.id !== id));
   };
 
   return (
@@ -19,13 +26,16 @@ function App() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="What’s next?"
+          placeholder="What’s your next task?"
         />
-        <button>Add Task</button>
+        <button type="submit">Add Task</button>
       </form>
       <ul>
         {tasks.map((task) => (
-          <li key={task.id}>{task.text}</li>
+          <li key={task.id}>
+            {task.text}
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
+          </li>
         ))}
       </ul>
     </div>
